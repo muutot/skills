@@ -82,7 +82,13 @@ Map how the module reaches the public API:
    - Trace what operations are performed (gemm, norm, cast, etc.).
    - Generate a Mermaid flowchart visualizing the module's internal code logic
      — data flow, branching, kernel invocations, and tensor transformations
-     within the forward pass. Example:
+     within the forward pass.
+   - **Validate the generated Mermaid syntax**: after writing the flowchart
+     code block, check that node IDs, edge definitions, subgraph boundaries,
+     and direction declarations are all syntactically valid. Common pitfalls:
+     node IDs with spaces (must be quoted), mismatched subgraph brackets,
+     missing direction declaration (`LR` / `TD` / `BT`). Fix any issues found.
+     Example:
      ```mermaid
      flowchart LR
          subgraph Input
