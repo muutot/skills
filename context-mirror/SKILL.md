@@ -25,6 +25,36 @@ When asked to analyze a module's context in the project, perform the following s
   structural comparison. When omitted, sections 8-9 (gap analysis) are
   skipped entirely.
 
+## Flow
+
+```mermaid
+flowchart TD
+    Start([脉络镜]) --> P{target_repo?}
+    P -- Yes --> Full[全流程分析]
+    P -- No --> Local[仅本地分析]
+
+    Full --> M1[1. 定位源文件]
+    Local --> M1
+
+    M1 --> M2[2. 追踪导入链]
+    M2 --> M3[3. 分析类继承]
+    M3 --> M4[4. 构造参数详解]
+    M4 --> M5[5. 核心方法 & 调用流]
+    M5 --> M6[6. 关联模块 & 依赖]
+    M6 --> M7[7. 跨文件关联]
+
+    M7 --> R{target_repo?}
+    R -- Yes --> Gap[8. 对标分析]
+    R -- No --> Report[9. 输出报告]
+
+    Gap --> Gap1[8.1 定位参考路径]
+    Gap1 --> Gap2[8.2 拉取远程源码]
+    Gap2 --> Gap3[8.3 结构对比]
+    Gap3 --> Gap4[8.4 差异分类]
+    Gap4 --> Gap5[8.5 优化建议]
+    Gap5 --> Report
+```
+
 ## 1. Locate Module Source
 
 1. Take the `module` parameter value (module/class name).
