@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+- :recycle: [context-mirror]: add optional `target_repo` parameter — when
+  provided, compare against the specified repo instead of hardcoded NVTE;
+  when omitted, skip gap analysis entirely
 - :bug: [branch-diff-review]: remove leading blank lines and stray character
   before YAML frontmatter that could cause parsing issues
 - :wrench: [license]: add MIT LICENSE file and reference in README
