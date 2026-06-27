@@ -1,6 +1,3 @@
-
-.
-
 ---
 name: branch-diff-review
 description: >

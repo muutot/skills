@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- :bug: [branch-diff-review]: remove leading blank lines and stray character
+  before YAML frontmatter that could cause parsing issues
 - :wrench: [license]: add MIT LICENSE file and reference in README
 - :art: [skills]: add `compatibility: opencode, claude, codex` to all 9 skill
   definitions and update README compatibility docs
