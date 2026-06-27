@@ -80,74 +80,82 @@ Map how the module reaches the public API:
      postprocessing).
    - Identify the `torch.autograd.Function` subclass that implements the
      actual forward/backward.
-   - Trace every operation: gemm, norm, cast, quantization, dequantization,
-     activation functions, residual add, etc.
-   - **Generate a detailed Mermaid flowchart** that covers **all code
-     branches** in the forward pass. This must include:
-     - **Every conditional branch**: `if/else`, `torch.where`, tensor shape
-       checks, dtype checks, device checks, feature flag gates (e.g. FP8
-       enabled / disabled, tensor parallelism on / off, sequence parallel
-       on / off). Each branch must be a distinct path in the flowchart with
-       its label on the edge.
-     - **Every tensor transformation**: each cast, reshape, permute,
-       transpose, split, cat, and slice along the data path.
-     - **All kernel / operator invocations**: GEMM, layernorm, softmax,
-       activation (ReLU, GELU, SwiGLU, etc.), residual add, all-reduce,
-       reduce-scatter, all-gather.
-     - **Subgraph decomposition for fused ops**: if multiple operations are
-       fused into one kernel (e.g. QKV projection, fusing bias+gelu),
-       break the subgraph into nodes for each logical step and annotate
-       "fused" on the container subgraph.
-     - **Error / early-return paths**: guard clauses that return early
-       (shape mismatch, empty tensor, skipped computation).
-     - **In-place mutation**: mark nodes where tensors are modified in-place
-       (`.add_()`, `.copy_()`, etc.) with a distinct style.
-     - **Autograd.Function boundary**: clearly delineate where the code
-       enters and exits the custom autograd function, and show both forward
-       and backward data flow if the backward method is non-trivial.
-     Example skeleton (your flowchart must be significantly more detailed):
-     ```mermaid
-     flowchart TD
-         subgraph Input
-             A[hidden_states: shape, dtype]
-             W[weight: shape, dtype]
-             B[bias or None]
-         end
-         subgraph Guards
-             C{FP8 enabled?}
-             C -- Yes --> D[init fp8_meta]
-             C -- No --> E[skip fp8 init]
-             F{tensor parallel?}
-             F -- Yes --> G[split weight]
-             F -- No --> H[full weight]
-         end
-         subgraph Preprocess
-             I[cast to compute dtype]
-             J[reshape for grouped gemm]
-         end
-         subgraph AutogradFn
-             K[FP8Quantize]
-             L[Gemm: MxK x KxN]
-             M[Dequant]
-             N{has bias?}
-             N -- Yes --> O[add bias]
-             N -- No --> P[skip bias]
-         end
-         subgraph Postprocess
-             Q[all-reduce if TP]
-             R[cast to output dtype]
-             S[output activation]
-         end
-         Input --> Guards
-         Guards --> Preprocess
-         Preprocess --> AutogradFn
-         AutogradFn --> Postprocess
-     ```
-   - **Validate the generated Mermaid syntax**: after writing the flowchart
-     code block, check that node IDs, edge definitions, subgraph boundaries,
-     and direction declarations are all syntactically valid. Common pitfalls:
-     node IDs with spaces (must be quoted), mismatched subgraph brackets,
-     missing direction declaration (`TD` / `LR` / `BT`). Fix any issues found.
+    - Trace every operation: gemm, norm, cast, quantization, dequantization,
+      activation functions, residual add, etc.
+    - **Generate a detailed Mermaid flowchart** that covers **all code
+      branches** in the forward pass. This must include:
+      - **Every conditional branch**: `if/else`, `torch.where`, tensor shape
+        checks, dtype checks, device checks, feature flag gates (e.g. FP8
+        enabled / disabled, tensor parallelism on / off, sequence parallel
+        on / off). Each branch must be a distinct path in the flowchart with
+        its label on the edge.
+      - **Every tensor transformation**: each cast, reshape, permute,
+        transpose, split, cat, and slice along the data path.
+      - **All kernel / operator invocations**: GEMM, layernorm, softmax,
+        activation (ReLU, GELU, SwiGLU, etc.), residual add, all-reduce,
+        reduce-scatter, all-gather.
+      - **Subgraph decomposition for fused ops**: if multiple operations are
+        fused into one kernel (e.g. QKV projection, fusing bias+gelu),
+        break the subgraph into nodes for each logical step and annotate
+        "fused" on the container subgraph.
+      - **Error / early-return paths**: guard clauses that return early
+        (shape mismatch, empty tensor, skipped computation).
+      - **In-place mutation**: mark nodes where tensors are modified in-place
+        (`.add_()`, `.copy_()`, etc.) with a distinct style.
+      - **Autograd.Function boundary**: clearly delineate where the code
+        enters and exits the custom autograd function, and show both forward
+        and backward data flow if the backward method is non-trivial.
+    - **Node labels and edge labels must be in Chinese** — all descriptions
+      within the flowchart must use Chinese. Code identifiers, type names,
+      and file paths remain in English.
+    - **Annotate critical code with file location**: for important nodes
+      (kernel calls, branch conditions, tensor transformations), append the
+      source file path and line number in parentheses, e.g.
+      `[量化 (ops/fp8.py:42)]`. This helps readers jump directly to the
+      relevant code.
+      Example (your flowchart must be significantly more detailed):
+      ```mermaid
+      flowchart TD
+          subgraph 输入
+              A[hidden_states: shape, dtype]
+              W[weight: shape, dtype]
+              B[bias 或 None]
+          end
+          subgraph 前置检查
+              C{FP8 启用? (quant.py:88)}
+              C -- 是 --> D[初始化 fp8_meta]
+              C -- 否 --> E[跳过 FP8 初始化]
+              F{张量并行?}
+              F -- 是 --> G[切分权重 (linear.py:120)]
+              F -- 否 --> H[使用完整权重]
+          end
+          subgraph 预处理
+              I[转成计算精度]
+              J[reshape 适配 grouped gemm]
+          end
+          subgraph AutogradFn
+              K[FP8 量化 (fp8.py:42)]
+              L[GEMM: MxK x KxN (cublas)]
+              M[反量化]
+              N{有 bias?}
+              N -- 是 --> O[加 bias (linear.py:150)]
+              N -- 否 --> P[跳过 bias]
+          end
+          subgraph 后处理
+              Q[all-reduce (TP 时)]
+              R[转成输出精度]
+              S[输出激活]
+          end
+          输入 --> 前置检查
+          前置检查 --> 预处理
+          预处理 --> AutogradFn
+          AutogradFn --> 后处理
+      ```
+    - **Validate the generated Mermaid syntax**: after writing the flowchart
+      code block, check that node IDs, edge definitions, subgraph boundaries,
+      and direction declarations are all syntactically valid. Common pitfalls:
+      node IDs with spaces (must be quoted), mismatched subgraph brackets,
+      missing direction declaration (`TD` / `LR` / `BT`). Fix any issues found.
 3. For the `backward` method (if inside an `autograd.Function`):
    - List all gradient computations (dgrad, wgrad, act grad).
    - Note any gradient accumulation, gradient scaling, or sparse gradient
