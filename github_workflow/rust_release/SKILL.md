@@ -1,6 +1,6 @@
 ---
-name: release
-description: Bump version, tag, and update CHANGELOG for keymouse-monitor releases — map [Unreleased] entries to commits
+name: rust_release
+description: Bump version, tag, and update CHANGELOG for Rust projects — map [Unreleased] entries to commits
 license: MIT
 compatibility: opencode
 metadata:

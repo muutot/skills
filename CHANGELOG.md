@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+- :recycle: [github_workflow]: rename `release` skill to `rust_release`; add
+  `python_release` and `generic_release` skills
+
 ## [0.1.0] - 2026-06-27
 
 ### Features
