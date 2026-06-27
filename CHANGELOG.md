@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 
+- :scissors: [context-mirror]: deduplicate 205-line Mermaid flowchart from output report template, replace with short skeleton example
 - :memo: [context-mirror]: comprehensive skill revamp — Chinese-language
   output, generic project support (removed hardcoded NVTE paths), exhaustive
   Mermaid flowcharts with sub-module decomposition and file:line annotations,
