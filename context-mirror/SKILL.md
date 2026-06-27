@@ -3,10 +3,11 @@ name: context-mirror
 description: >
   脉络镜: 深入分析某个模块在项目中的位置、调用链、参数详情、
   类继承关系、前后端依赖，并与指定目标仓库（如 NVTE）最新实现进行
-  对标，识别实现缺漏和优化机会。支持通过 target_repo 参数指定对比
-  仓库；未指定时跳过差异对比。触发词包括 '脉络镜', 'context-mirror',
-  '分析模块', '模块脉络', '对标分析', 'gap analysis', 'NVTE',
-  'trace module', 'module analysis'.
+  对标，识别实现缺漏和优化机会。接受两个参数：module（必填，要分析
+  的模块名）和 target_repo（可选，对比仓库）；未指定 target_repo 时
+  跳过差异对比。触发词包括 '脉络镜', 'context-mirror', '分析模块',
+  '模块脉络', '对标分析', 'gap analysis', 'NVTE', 'trace module',
+  'module analysis'.
 compatibility: opencode, claude, codex
 ---
 
@@ -16,6 +17,8 @@ When asked to analyze a module's context in the project, perform the following s
 
 ## Parameters
 
+- **`module`** (required): Module/class name to analyze, e.g.
+  `GroupedLinear`, `LayerNormLinear`, `fp8_autocast`.
 - **`target_repo`** (optional): GitHub repository to compare against, in
   `owner/repo` format (e.g. `NVIDIA/TransformerEngine`). When provided, the
   skill fetches the corresponding source file from that repo and performs a
@@ -24,7 +27,7 @@ When asked to analyze a module's context in the project, perform the following s
 
 ## 1. Locate Module Source
 
-1. Take the user-specified module/class name (e.g. `GroupedLinear`, `LayerNormLinear`, `fp8_autocast`).
+1. Take the `module` parameter value (module/class name).
 2. Search the source tree for the definition:
    - `grep -r "class <Name>" --include="*.py" transformer_engine/`
    - `grep -r "def <name>" --include="*.py" transformer_engine/`
