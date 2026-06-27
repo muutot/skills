@@ -2,16 +2,18 @@
 
 ## [Unreleased]
 
-- :recycle: [context-mirror]: add optional `target_repo` parameter — when
-  provided, compare against the specified repo instead of hardcoded NVTE;
-  when omitted, skip gap analysis entirely
-- :bug: [branch-diff-review]: remove leading blank lines and stray character
-  before YAML frontmatter that could cause parsing issues
-- :wrench: [license]: add MIT LICENSE file and reference in README
-- :art: [skills]: add `compatibility: opencode, claude, codex` to all 9 skill
-  definitions and update README compatibility docs
-- :recycle: [github_workflow]: rename `release` skill to `rust_release`; add
-  `python_release` and `generic_release` skills
+- :memo: [context-mirror]: comprehensive skill revamp — Chinese-language
+  output, generic project support (removed hardcoded NVTE paths), exhaustive
+  Mermaid flowcharts with sub-module decomposition and file:line annotations,
+  flowchart syntax validation checklist, and dataclass config documentation
+- :recycle: [release]: split into `rust_release`, `python_release`, and
+  `generic_release` — each tailored to its language ecosystem with appropriate
+  build and publish steps
+- :art: [skills]: add `compatibility: opencode, claude, codex` frontmatter to
+  all 9 skills and update README compatibility documentation
+- :wrench: [license]: add MIT LICENSE file
+- :bug: [branch-diff-review]: strip leading blank lines and stray characters
+  before YAML frontmatter that could block parsing
 
 ## [0.1.0] - 2026-06-27
 
