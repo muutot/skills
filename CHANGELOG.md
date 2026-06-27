@@ -2,14 +2,18 @@
 
 ## [Unreleased]
 
-- :sparkles: [export]: add Python CLI script that discovers SKILL.md files and
-  deploys them into opencode / claude / codex directory structures with copy,
-  symlink, or hardlink modes
-- :memo: [docs]: add README with skill catalog, export script usage, and
-  cross-tool compatibility notes
-- :wrench: [config]: fix `.agnets` typo in .gitignore and add `.claude` /
-  `.agents` entries
+## [0.1.0] - 2026-06-27
 
-- :sparkles: [skills]: add opencode skill definitions for
-  author-contrib-review, branch-diff-review, commit-message-gen,
-  context-mirror, commit, release, and pre-commit-review workflows
+### Features
+- (export) add Python CLI script that discovers SKILL.md files and deploys
+  them into opencode / claude / codex directory structures with copy, symlink,
+  or hardlink modes — [`c4b9a7c`](https://github.com/muutot/skills/commit/c4b9a7c)
+- (skills) add opencode skill definitions for author-contrib-review,
+  branch-diff-review, commit-message-gen, context-mirror, commit, release,
+  and pre-commit-review workflows — [`22fbdfa`](https://github.com/muutot/skills/commit/22fbdfa)
+
+### Chores
+- (config) fix `.agnets` typo in `.gitignore` and add `.claude` / `.agents`
+  entries — [`c4b9a7c`](https://github.com/muutot/skills/commit/c4b9a7c)
+- (docs) add README with skill catalog, export script usage, and cross-tool
+  compatibility notes — [`c4b9a7c`](https://github.com/muutot/skills/commit/c4b9a7c)
