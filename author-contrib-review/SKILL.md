@@ -5,6 +5,7 @@ description: >
   Summarizes what they did: commit count, file scope, key modules, feature
   types (feat/fix/refactor), and impact metrics. Triggered by keywords like
   '看看 xxx 做了什么', '提交者分析', 'author review', '谁写了什么', '贡献分析'.
+compatibility: opencode, claude, codex
 ---
 
 # Author Contribution Review

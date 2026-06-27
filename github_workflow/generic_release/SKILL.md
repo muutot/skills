@@ -2,7 +2,7 @@
 name: generic_release
 description: Bump version, tag, and update CHANGELOG for any project — language-agnostic release workflow
 license: MIT
-compatibility: opencode
+compatibility: opencode, claude, codex
 metadata:
   audience: maintainers
   workflow: local

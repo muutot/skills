@@ -9,6 +9,7 @@ description: >
   optimization opportunities, and missed modifications. Triggered
   by keywords like 'branch review', 'diff review', 'review branch',
   'compare branch', 'tag review', 'diff tag', 'compare tag'.
+compatibility: opencode, claude, codex
 ---
 
 # Branch / Tag Diff Review

@@ -6,6 +6,7 @@ description: >
   in English following the format 'type(module): concise summary' with
   optional bullet points. Triggered by keywords like 'commit message',
   'generate commit', 'write commit message'.
+compatibility: opencode, claude, codex
 ---
 
 # Commit Message Generation

@@ -6,6 +6,7 @@ description: >
   diffs for bugs, optimization opportunities, and missed
   modifications. Also triggered by keywords like 'pre-commit',
   'review commit', 'check before commit'.
+compatibility: opencode, claude, codex
 ---
 
 # Pre-Commit Review

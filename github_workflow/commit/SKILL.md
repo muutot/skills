@@ -2,7 +2,7 @@
 name: commit
 description: Generate a Git emoji commit message from unstaged/staged changes, write macro-level summary under [Unreleased] in CHANGELOG.md, then commit both together
 license: MIT
-compatibility: opencode
+compatibility: opencode, claude, codex
 metadata:
   audience: developers
   workflow: local

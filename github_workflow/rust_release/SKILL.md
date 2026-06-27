@@ -2,7 +2,7 @@
 name: rust_release
 description: Bump version, tag, and update CHANGELOG for Rust projects — map [Unreleased] entries to commits
 license: MIT
-compatibility: opencode
+compatibility: opencode, claude, codex
 metadata:
   audience: maintainers
   workflow: local

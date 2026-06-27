@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- :art: [skills]: add `compatibility: opencode, claude, codex` to all 9 skill
+  definitions and update README compatibility docs
 - :recycle: [github_workflow]: rename `release` skill to `rust_release`; add
   `python_release` and `generic_release` skills
 

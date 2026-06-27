@@ -6,6 +6,7 @@ description: >
   最新实现进行对标，识别实现缺漏和优化机会。触发词包括
   '脉络镜', 'context-mirror', '分析模块', '模块脉络', '对标分析',
   'gap analysis', 'NVTE', 'trace module', 'module analysis'.
+compatibility: opencode, claude, codex
 ---
 
 # 脉络镜 — Module Context Insight

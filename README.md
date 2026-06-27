@@ -58,8 +58,8 @@ skills/
 └── README.md
 ```
 
-Each `SKILL.md` uses standard YAML frontmatter with `name` and `description` (required), plus optional fields like `license`, `compatibility`, and `metadata`.
+Each `SKILL.md` uses standard YAML frontmatter with `name` and `description` (required), plus optional fields like `license`, `compatibility`, and `metadata`. All skills declare `compatibility: opencode, claude, codex` in their frontmatter.
 
 ## Compatibility
 
-Skills are authored in the opencode format and are also loadable by Claude Code (`.claude/skills/`) and OpenAI Codex (`.agents/skills/`) with zero modifications — all three tools read the same `<name>/SKILL.md` structure.
+Skills are loadable by all three tools with zero modifications — all read the same `<name>/SKILL.md` structure. Use `skill-export.py` to deploy them to the appropriate directory for each tool.

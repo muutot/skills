@@ -2,7 +2,7 @@
 name: python_release
 description: Bump version, tag, and publish Python packages — update CHANGELOG, pyproject.toml, build, and upload to PyPI
 license: MIT
-compatibility: opencode
+compatibility: opencode, claude, codex
 metadata:
   audience: maintainers
   workflow: local
