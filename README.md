@@ -49,11 +49,14 @@ Options:
 
 ```
 skills/
+├── LICENSE
 ├── <skill-name>/
 │   └── SKILL.md          # skill definition (YAML frontmatter + markdown body)
 ├── github_workflow/
-│   ├── commit/SKILL.md   # workflow-grouped skills
-│   └── release/SKILL.md
+│   ├── commit/SKILL.md
+│   ├── generic_release/SKILL.md
+│   ├── python_release/SKILL.md
+│   └── rust_release/SKILL.md
 ├── skill-export.py        # export script
 └── README.md
 ```
@@ -63,3 +66,7 @@ Each `SKILL.md` uses standard YAML frontmatter with `name` and `description` (re
 ## Compatibility
 
 Skills are loadable by all three tools with zero modifications — all read the same `<name>/SKILL.md` structure. Use `skill-export.py` to deploy them to the appropriate directory for each tool.
+
+## License
+
+[MIT](LICENSE)
