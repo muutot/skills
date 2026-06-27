@@ -5,3 +5,5 @@ bun.lock
 .idea
 .vscode
 .opencode
+.claude
+.agents
