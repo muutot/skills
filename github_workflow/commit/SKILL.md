@@ -81,38 +81,7 @@ Section inside `CHANGELOG.md`. Example:
 
 ### Hash placement (for release reference)
 
-When the release skill adds commit hashes:
-
-- **Hash placement**: the `— [`hash`](url)` sequence must never be split across
-  lines, and must never appear on a line by itself. The hash always shares a
-  line with descriptive text.
-- Single hash: inline on the first line if it fits within 88 display chars;
-  otherwise on the last continuation line alongside remaining description text.
-- Multiple hashes: grouped inside parentheses on the last continuation line,
-  preceded by description text:
-  `  description — ([`hash1`](url), [`hash2`](url), ...)`.
-
-## Examples
-
-### Initial commit
-
-Staged changes include a database module rewrite:
-
-```markdown
-## [Unreleased]
-
-- :sparkles: [database]: add MongoDB fallback to SQLite — when primary write
-  fails, automatically retry on local SQLite; on reconnect, sync data back
-```
-
-### Next commit
-
-Staged: fix X1/X2 button in rawinput.  Commit skill reviews all changes
-since last tag (`v1.0.0`), rewrites the entire `[Unreleased]`:
-
-```markdown
-## [Unreleased]
-
-- :sparkles: [database]: add MongoDB fallback to SQLite with auto-reconnect
-- :bug: [rawinput]: hardcode X1/X2 button number instead of usButtonData
-```
+When the release skill later appends commit hashes, the `— [`hash`](url)` must
+never be split across lines or isolated on its own line. Write entries so a
+hash can share the last line of any wrapped entry. Multiple hashes are grouped
+on the last line as `([`h1`](url), [`h2`](url), ...)`.

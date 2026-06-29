@@ -98,40 +98,28 @@ If the fork has its own divergence rationale documented in code comments, leave 
 
 ## 7. Pseudo-Bug / Pseudo-Optimization Identification (CRITICAL)
 
-Before finalizing any **BUG** / **Optimization** finding, validate it against the checklist below. Past reviews have surfaced recurring false positives that waste author time and erode trust in the review. Every finding MUST pass at least one of the "real signal" gates; otherwise, mark it `⚠️ Likely pseudo` and either downgrade or retract.
+Every BUG / Optimization finding must pass at least one validation gate before being reported. Unvalidated claims must be downgraded to `⚠️ Likely pseudo` or withdrawn.
 
-### 7.1 Markers that often indicate a pseudo finding
-
-- **The code path is unreachable / dead**: e.g. recommending "fix" for a class attribute that no caller ever reads (verify with `grep` over the whole repo before reporting "missing `self.foo = bar`").
-- **The "fix" violates a documented contract**: e.g. asserting that a `__post_init__` does not run, when the base class defines one and the dataclass auto-calls it (verify with a 5-line `exec`-based stub rather than reasoning from memory).
-- **The behavior is intentionally lazy / deferred and the test suite enforces it**: e.g. `qfactory=None` being accepted at `Recipe(...)` time but rejected at `CustomRecipeState(...)` time — if `tests/` cover this exact path with `# type: ignore[arg-type]`, it is by design, not a bug.
-- **The optimization has no measurable impact at the call site**: e.g. suggesting O(N) -> O(N²) -> set dedup when `num_quantizers` is bounded at 6-9 by the framework's GEMM contract.
-- **The "missing call" is unreachable in the current control flow**: e.g. a hook designed for a feature flag that defaults off, or a method only called when `_persistent_state_buffers` is non-empty.
-- **The finding duplicates an existing test assertion**: check `tests/` for the symbol before claiming "no test coverage".
-- **The finding relies on a guess about library internals**: e.g. "Python dataclass subclasses don't inherit `__post_init__`" — verify the exact `@dataclass` semantics empirically with a minimal repro before publishing.
-- **The diff line was already present on the base ref**: blame the line. Pre-existing bugs in untouched code are out of scope unless the PR explicitly modifies adjacent code (and even then, mark as `MISS` not `BUG`).
-
-### 7.2 Validation gates — every finding MUST pass at least one
+### 7.1 Validation Gates
 
 | Gate | How to satisfy |
 |---|---|
-| **Empirical repro** | Write a ≤30-line Python stub that demonstrates the bug (no pytest, no torch dep where avoidable). Examples: build a fake `_D` namespace, exec the dataclass body, assert the behavior. |
-| **Direct cross-reference** | The upstream NVTE file shows the same line working differently, or the test suite asserts the opposite behavior. |
-| **Caller trace** | `grep -rn '<symbol>'` over the whole repo shows the affected code path is actually invoked. |
-| **Test enforcement** | A test in `tests/` already fails or would fail after the suggested fix. |
-| **Author intent doc** | A code comment / docstring / commit message explicitly states the current behavior is intended. |
+| **Empirical repro** | ≤30-line Python stub demonstrating the bug (no pytest/torch dep preferred) |
+| **Direct cross-reference** | Upstream file shows different implementation, or test asserts opposite |
+| **Caller trace** | `grep` over the repo proves the affected code path is actually invoked |
+| **Test enforcement** | A test already fails or would fail after the suggested fix |
+| **Author intent doc** | Comment / docstring / commit states current behavior is intended |
 
-If none of the gates can be satisfied in under two minutes of investigation, the finding is almost certainly pseudo. Downgrade to `⚠️ Likely pseudo` or retract.
+If no gate can be satisfied in under two minutes → `⚠️ Likely pseudo`.
 
-### 7.3 Workflow for high-risk claims
+### 7.2 Common False-Positive Signals
 
-1. **State assumption**: write down what you believe happens (e.g. "`MXFP4BlockScaling.__post_init__` does not call `super().__post_init__()` so the base assertion is skipped").
-2. **Pick the cheapest validation**: usually a `python -c` stub using `types.SimpleNamespace` for torch.
-3. **Run it. Do not skip this step.**
-4. **Record the output verbatim** in the report — readers must be able to reproduce.
-5. **Revise the finding** based on what the validation actually showed.
-
-The 2026-06-26 review of `custom_recipe` PR caught three pseudo-bugs this way (dataclass `__post_init__` inheritance, `qfactory=None` "delayed" validation, `state.device` "missing" attribute). Documenting the validation steps prevents the same mistakes recurring.
+- **Dead path**: symbol is never called (verify with `grep` before reporting)
+- **Contract illusion**: behavior comes from base class / decorator / metaclass
+- **Zero-benefit optimization**: no measurable impact at the call site
+- **Comment treated as call site**: matches in `#` / `"""` only
+- **Pre-existing on base ref**: diff was already present; out of scope
+- **Already tested**: `tests/` already asserts the "missing" behavior
 
 ## 8. Summary Statistics
 

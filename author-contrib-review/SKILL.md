@@ -107,32 +107,16 @@ Based on commit messages and file changes, categorize contributions:
 
 ## 4. Output Format
 
-Present the result in Chinese (中文) with the following structure:
+Present the result in Chinese (中文) using the structure below. Data format follows sections 2-3.
 
 ```markdown
 ### 提交者：<author_name> | <total_commits> commits
-
 **时间范围：** <first_date> ~ <last_date>
 **影响规模：** <files_changed> 个文件，净增 <net_lines> 行代码（+<ins> / -<del>）
-
-**提交类型分布：**
-- 功能开发 (feat): <n> 次
-- 重构 (refactor): <n> 次
-- 问题修复 (fix): <n> 次
-- 性能优化 (perf): <n> 次
-- 其他: <n> 次
-
-**涉及主要模块：**
-- <模块1>：<简述改动内容>
-- <模块2>：<简述改动内容>
-- ...
-
-**主要工作内容：**
-1. <要点1>
-2. <要点2>
-3. ...
-
-**活跃规律：** 以周<x>最为活跃，共 <n> 次提交
+**提交类型分布：** `feat`/`refactor`/`fix`/`perf`/`other` counts from §2.4
+**涉及主要模块：** from §2.5 / §3.1
+**主要工作内容：** from §3.2
+**活跃规律：** from §2.6
 ```
 
 If there are multiple authors, present each individually and optionally provide a combined summary.
