@@ -10,7 +10,9 @@ Reusable AI agent skill definitions compatible with [opencode](https://opencode.
 | [branch-diff-review](branch-diff-review/SKILL.md) | Review branch/tag diffs for bugs, optimizations, and missed changes |
 | [commit-message-gen](commit-message-gen/SKILL.md) | Generate structured Git commit messages from staged/unstaged diffs |
 | [context-mirror](context-mirror/SKILL.md) | Deep module analysis: call chain, class hierarchy, NVTE gap comparison |
+| [delete-remote-release](delete-remote-release/SKILL.md) | Delete remote git tags and GitHub release drafts |
 | [pre-commit-review](pre-commit-review/SKILL.md) | Pre-commit diff review: bug check, optimization, missed modifications |
+| [fuck-my-shit-mountain](fuck-my-shit-mountain/SKILL.md) | Evidence-based multidimensional codebase audit |
 | [commit](github_workflow/commit/SKILL.md) | Emoji commit with CHANGELOG [Unreleased] management |
 | [release](github_workflow/release/SKILL.md) | Bump version, tag, and update CHANGELOG for releases |
 
