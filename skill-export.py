@@ -110,7 +110,18 @@ def copy_file(src: Path, dst: Path, mode: str, force: bool) -> None:
         shutil.copy2(src, dst)
         print(f"  [copy] {dst}")
     elif mode == "symlink":
-        os.symlink(src.resolve(), dst)
+        import platform
+        import subprocess
+        if platform.system() == "Windows":
+            subprocess.run(
+                ["mklink", str(dst), str(src.resolve())],
+                shell=True,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+        else:
+            os.symlink(src.resolve(), dst)
         print(f"  [symlink] {dst}")
     elif mode == "hardlink":
         os.link(src.resolve(), dst)
