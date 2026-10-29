@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Development Framework"
+  short_description: "Develop any repository with evidence and style gates"
+  default_prompt: "Use $dev to inspect the repository, read the routed references, and complete one verified minimal change with the mandatory skill/reference currency check before commit."
